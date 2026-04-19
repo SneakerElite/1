@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNEAKERBOX | Elite Collection</title>
+    <style>
+        /* --- GENERAL STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #111; background: #fff; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; cursor: pointer; }
+
+        /* --- NAVIGATION --- */
+        header {
+            background: #fff; padding: 1rem 5%; display: flex; justify-content: space-between;
+            align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #e5e5e5;
+        }
+        .logo { font-size: 1.5rem; font-weight: 900; cursor: pointer; letter-spacing: -1px; }
+        nav ul { list-style: none; display: flex; gap: 25px; }
+        nav ul li a { font-weight: bold; text-transform: uppercase; font-size: 0.85rem; }
+        
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .cart-btn { background: none; border: none; cursor: pointer; font-weight: bold; position: relative; }
+        #cart-count { background: #00f2ff; color: #000; padding: 2px 6px; border-radius: 50%; font-size: 0.7rem; position: absolute; top: -12px; right: -15px; border: 1px solid #000; }
+
+        /* --- HOME PAGE SECTIONS --- */
+        .home-hero {
+            height: 90vh;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+        }
+        .home-hero h1 { font-size: clamp(3rem, 8vw, 6rem); text-transform: uppercase; line-height: 0.9; margin-bottom: 20px; }
+        .cta-btn { 
+            background: #fff; color: #000; padding: 18px 40px; font-weight: bold; 
+            text-transform: uppercase; border-radius: 40px; transition: 0.3s; 
+        }
+        .cta-btn:hover { background: #00f2ff; transform: scale(1.05); }
+
+        .section-title { text-align: center; padding: 60px 0 20px; font-size: 2rem; text-transform: uppercase; letter-spacing: -1px; }
+
+        /* Featured Slider-like grid */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 0 5% 60px;
+        }
+
+        /* --- SHOP PAGE SECTIONS --- */
+        #shop-page { display: none; } /* Hidden by default */
+
+        .filter-bar { 
+            display: flex; justify-content: center; gap: 40px; padding: 20px; 
+            border-bottom: 1px solid #e5e5e5; position: sticky; top: 65px; background: #fff; z-index: 999; 
+        }
+        .filter-btn { background: none; border: none; font-weight: bold; color: #757575; cursor: pointer; text-transform: uppercase; font-size: 0.9rem; }
+        .filter-btn.active { color: #000; border-bottom: 2px solid #000; }
+
+        /* --- PRODUCT CARDS --- */
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 5%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        
+        .card { padding-bottom: 30px; transition: 0.3s; position: relative;}
+        .img-container { 
+            background: #f6f6f6; width: 100%; height: 350px; 
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; margin-bottom: 15px; border-radius: 4px;
+        }
+        .card img { max-width: 90%; max-height: 80%; object-fit: contain; mix-blend-mode: multiply; transition: 0.5s; }
+        .card:hover img { transform: scale(1.1); }
+        .card h3 { font-size: 1rem; margin-bottom: 4px; }
+        .card p { color: #757575; font-size: 0.9rem; margin-bottom: 4px; }
+        .price { font-weight: bold; margin-bottom: 15px; display: block; }
+        
+        .buy-btn {
+            background: #000; color: #fff; border: none; padding: 15px; width: 100%;
+            font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+        }
+        .buy-btn:hover { background: #00f2ff; color: #000; }
+
+        /* --- CART SIDEBAR --- */
+        #cart-sidebar {
+            position: fixed; top: 0; right: -400px; width: 380px; height: 100%;
+            background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1); z-index: 2000;
+            padding: 30px; transition: 0.4s; display: flex; flex-direction: column;
+        }
+        #cart-sidebar.active { right: 0; }
+        .cart-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #eee; }
+
+        /* --- FOOTER --- */
+        footer { background: #111; color: #fff; padding: 60px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        footer h4 { font-size: 0.8rem; text-transform: uppercase; margin-bottom: 20px; color: #00f2ff; }
+        footer p { color: #757575; font-size: 0.8rem; margin-bottom: 8px; cursor: pointer; }
+        footer p:hover { color: #fff; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="showHome()">SNEAKERBOX</div>
+        <nav>
+            <ul>
+                <li><a onclick="showCategory('men')">Men</a></li>
+                <li><a onclick="showCategory('women')">Women</a></li>
+                <li><a onclick="showCategory('kids')">Kids</a></li>
+            </ul>
+        </nav>
+        <div class="nav-right">
+            <button class="cart-btn" onclick="toggleCart()">BAG <span id="cart-count">0</span></button>
+        </div>
+    </header>
+
+    <!-- CART SIDEBAR -->
+    <div id="cart-sidebar">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2>Bag</h2>
+            <span style="cursor:pointer; font-size:2rem" onclick="toggleCart()">&times;</span>
+        </div>
+        <div id="cart-items-list" style="flex-grow:1; overflow-y:auto; margin-top:20px;"></div>
+        <h3 id="cart-total" style="margin-top:20px; border-top:1px solid #000; padding-top:20px;">Total: $0</h3>
+        <button class="buy-btn" style="margin-top:20px; border-radius:30px;">Checkout</button>
+    </div>
+
+    <!-- HOME PAGE CONTENT -->
+    <main id="home-page">
+        <section class="home-hero">
+            <h1>Step Into<br>The Future</h1>
+            <p style="margin-bottom: 30px; font-size: 1.2rem;">The Elite Winter Collection is here.</p>
+            <a class="cta-btn" onclick="showCategory('all')">Explore All Products</a>
+        </section>
+
+        <h2 class="section-title">Our Newest Releases</h2>
+        <div class="featured-grid">
+            <!-- Curated selection for home page -->
+            <div class="card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80" alt="Air Max"></div>
+                <h3>Air Max Performance</h3>
+                <span class="price">$160</span>
+                <button class="buy-btn" onclick="addToCart('Air Max', 160)">Quick Add</button>
+            </div>
+            <div class="card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80" alt="Jordan"></div>
+                <h3>Air Jordan 1 Pastel</h3>
+                <span class="price">$180</span>
+                <button class="buy-btn" onclick="addToCart('Air Jordan 1', 180)">Quick Add</button>
+            </div>
+            <div class="card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600&q=80" alt="Ultraboost"></div>
+                <h3>Ultraboost 1.0</h3>
+                <span class="price">$190</span>
+                <button class="buy-btn" onclick="addToCart('Ultraboost 1.0', 190)">Quick Add</button>
+            </div>
+        </div>
+
+        <section style="background: #f6f6f6; padding: 80px 5%; text-align: center;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">MADE FOR MOTION</h2>
+            <p style="max-width: 600px; margin: 0 auto 30px; color: #555;">Pushing the boundaries of footwear since 2024. Our designs combine high-performance technology with streetwear aesthetics.</p>
+            <a onclick="showCategory('men')" style="text-decoration: underline; font-weight: bold; cursor: pointer;">Shop the Men's Collection</a>
+        </section>
+    </main>
+
+    <!-- SHOP PAGE CONTENT (The script you made, integrated) -->
+    <main id="shop-page">
+        <div class="filter-bar">
+            <button class="filter-btn" id="filter-all" onclick="showCategory('all')">All</button>
+            <button class="filter-btn" id="filter-men" onclick="showCategory('men')">Men</button>
+            <button class="filter-btn" id="filter-women" onclick="showCategory('women')">Women</button>
+            <button class="filter-btn" id="filter-kids" onclick="showCategory('kids')">Kids</button>
+        </div>
+
+        <div class="container">
+            <!-- MEN'S SECTION -->
+            <section id="men-section" class="category-section">
+                <h2 style="margin-bottom: 20px;">Men's Collection</h2>
+                <div class="grid">
+                    <div class="card">
+                        <div class="img-container"><img src="https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600&q=80" alt="Ultraboost"></div>
+                        <h3>Ultraboost 1.0</h3>
+                        <p>Men's Sportswear Runner</p>
+                        <span class="price">$190</span>
+                        <button class="buy-btn" onclick="addToCart('Ultraboost 1.0', 190)">Add to Cart</button>
+                    </div>
+                    <div class="card">
+                        <div class="img-container"><img src="https://images.unsplash.com/photo-1597044768588-bc46973b6e4a?w=600&q=80" alt="Metcon"></div>
+                        <h3>Metcon 9 Amp</h3>
+                        <p>Men's Training Shoes</p>
+                        <span class="price">$150</span>
+                        <button class="buy-btn" onclick="addToCart('Metcon 9 Amp', 150)">Add to Cart</button>
+                    </div>
+                    <div class="card">
+                        <div class="img-container"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80" alt="Air Max"></div>
+                        <h3>Air Max Performance</h3>
+                        <p>Men's Road Running</p>
+                        <span class="price">$160</span>
+                        <button class="buy-btn" onclick="addToCart('Air Max', 160)">Add to Cart</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WOMEN'S SECTION -->
+            <section id="women-section" class="category-section">
+                <h2 style="margin-bottom: 20px;">Women's Collection</h2>
+                <div class="grid">
+                    <div class="card">
+                        <div class="img-container"><img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=600&q=80" alt="AF1"></div>
+                        <h3>Air Force 1 '07</h3>
+                        <p>Women's Classic Basketball</p>
+                        <span class="price">$115</span>
+                        <button class="buy-btn" onclick="addToCart('Air Force 1', 115)">Add to Cart</button>
+                    </div>
+                    <div class="card">
+                        <div class="img-container"><img src="https://images.unsplash.com/photo-1539185441755-769473a23570?w=600&q=80" alt="Infinity Run"></div>
+                        <h3>Infinity Run 4</h3>
+                        <p>Women's Road Running</p>
+                        <span class="price">$160</span>
+                        <button class="buy-btn" onclick="addToCart('Infinity Run 4', 160)">Add to Cart</button>
+                    </div>
+                    <div class="card">
+                        <div class="img-container"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80" alt="Jordan"></div>
+                        <h3>Air Jordan 1 Pastel</h3>
+                        <p>Women's Lifestyle High</p>
+                        <span class="price">$180</span>
+                        <button class="buy-btn" onclick="addToCart('Air Jordan 1', 180)">Add to Cart</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- KIDS' SECTION -->
+            <section id="kids-section" class="category-section">
+                <h2 style="margin-bottom: 20px;">Kids' Collection</h2>
+                <div class="grid">
+                    <div class="card">
+                        <div class="img-container"><img src="https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=600&q=80" alt="Revolution"></div>
+                        <h3>Revolution 6 Next Nature</h3>
+                        <p>Kids' Performance Runner</p>
+                        <span class="price">$55</span>
+                        <button class="buy-btn" onclick="addToCart('Revolution 6', 55)">Add to Cart</button>
+                    </div>
+                    <div class="card">
+                        <div class="img-container"><img src="https://images.unsplash.com/photo-1603787081207-362bcef7c144?w=600&q=80" alt="AM 270"></div>
+                        <h3>Air Max 270 GO</h3>
+                        <p>Younger Kids' Shoes</p>
+                        <span class="price">$130</span>
+                        <button class="buy-btn" onclick="addToCart('Air Max 270 GO', 130)">Add to Cart</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div><h4>Help</h4><p>Order Status</p><p>Shipping</p><p>Returns</p></div>
+        <div><h4>About SNEAKERBOX</h4><p>News</p><p>Careers</p><p>Sustainability</p></div>
+        <div><h4>Social</h4><p>Instagram</p><p>Twitter</p><p>TikTok</p></div>
+    </footer>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
+
+        function addToCart(name, price) {
+            cart.push({name, price});
+            total += price;
+            updateUI();
+            document.getElementById('cart-sidebar').classList.add('active');
+        }
+
+        function updateUI() {
+            const list = document.getElementById('cart-items-list');
+            document.getElementById('cart-count').innerText = cart.length;
+            list.innerHTML = "";
+            cart.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `<span>${item.name}</span><span>$${item.price}</span>`;
+                list.appendChild(div);
+            });
+            document.getElementById('cart-total').innerText = "Total: $" + total;
+        }
+
+        // Logic to switch between Home and Shop
+        function showHome() {
+            document.getElementById('home-page').style.display = 'block';
+            document.getElementById('shop-page').style.display = 'none';
+            window.scrollTo(0,0);
+        }
+
+        function showCategory(cat) {
+            // Hide home, show shop
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('shop-page').style.display = 'block';
+
+            // Filter logic
+            const sections = document.querySelectorAll('.category-section');
+            sections.forEach(s => {
+                s.style.display = (cat === 'all' || s.id === cat + '-section') ? 'block' : 'none';
+            });
+            
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            const activeBtn = document.getElementById('filter-' + cat);
+            if(activeBtn) activeBtn.classList.add('active');
+            
+            window.scrollTo(0,0);
+        }
+    </script>
+</body>
+</html>

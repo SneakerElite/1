@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SnearElite | Premium Footwear</title>
+    <title>SneakerElite | Premium Footwear</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     
@@ -140,7 +140,6 @@
             background: #fff; padding: 40px; border-radius: 20px; width: 100%; max-width: 900px; 
             position: relative; display: flex; flex-wrap: wrap; gap: 40px; 
             box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-            /* These two lines fix the scrolling issue */
             max-height: 90vh; 
             overflow-y: auto; 
         }
@@ -183,7 +182,7 @@
     <!-- HEADER -->
     <header>
         <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
-        <div class="logo" onclick="goHome()">Snear<span>Elite</span></div>
+        <div class="logo" onclick="goHome()">Sneaker<span>Elite</span></div>
         
         <nav>
             <ul id="desktop-nav">
@@ -260,7 +259,7 @@
         <div class="modal-content login-box" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModals()">&times;</button>
             <h2 style="font-family: 'Oswald'; text-transform:uppercase; margin-bottom: 10px;">Welcome Back</h2>
-            <p style="color: var(--text-gray); margin-bottom: 20px;">Sign in to your SnearElite account</p>
+            <p style="color: var(--text-gray); margin-bottom: 20px;">Sign in to your SneakerElite account</p>
             <input type="email" placeholder="Email Address">
             <input type="password" placeholder="Password">
             <button class="buy-btn" onclick="loginMock()" style="margin-top:20px; padding: 15px;">Sign In</button>
@@ -286,7 +285,7 @@
             <div class="review-grid">
                 <div class="review-card">
                     <div class="stars">★★★★★</div>
-                    <p>"SnearElite is my go-to. Shipping was insanely fast and the shoes are pristine!"</p>
+                    <p>"SneakerElite is my go-to. Shipping was insanely fast and the shoes are pristine!"</p>
                     <h4 style="margin-top:20px; font-family:'Montserrat'; font-weight:700;">- Marcus T.</h4>
                 </div>
                 <div class="review-card">
@@ -346,7 +345,7 @@
             <p>Order Status</p><p>Shipping & Delivery</p><p>Returns</p><p>Payment Options</p>
         </div>
         <div>
-            <h4>About SnearElite</h4>
+            <h4>About SneakerElite</h4>
             <p>Our Story</p><p>Careers</p><p>Sustainability</p><p>Newsroom</p>
         </div>
         <div>
@@ -354,7 +353,7 @@
             <p>Instagram</p><p>Twitter</p><p>TikTok</p><p>YouTube</p>
         </div>
         <div class="footer-bottom">
-            &copy; 2023 SnearElite. All Rights Reserved. Designed for Sneakerheads.
+            &copy; 2023 SneakerElite. All Rights Reserved. Designed for Sneakerheads.
         </div>
     </footer>
 
@@ -593,7 +592,7 @@
 
         function checkout() {
             if(cart.length === 0) { alert("Your bag is empty!"); return; }
-            alert("Redirecting to secure Checkout... \n(This is a mockup checkout. Thanks for testing SnearElite!)");
+            alert("Redirecting to secure Checkout... \n(This is a mockup checkout. Thanks for testing SneakerElite!)");
             cart = [];
             updateCartUI();
             toggleCart();
@@ -631,7 +630,7 @@
         }
 
         function loginMock() {
-            alert("Login successful! Welcome back to SnearElite.");
+            alert("Login successful! Welcome back to SneakerElite.");
             closeModals();
         }
 
